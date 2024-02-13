@@ -1,8 +1,22 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
+import client, { urlFor } from "../sanity";
 
 const Categories = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    client
+      .fetch(
+        `
+    *[_type == "category"]`
+      )
+      .then((data) => {
+        setCategories(data);
+      });
+  }, []);
+
   return (
     <ScrollView
       contentContainerStyle={{
@@ -12,13 +26,13 @@ const Categories = () => {
       horizontal
       showsHorizontalScrollIndicator={false}
     >
-      {/* CategoryCard */}
-      <CategoryCard imgUrl="https://media-cdn.tripadvisor.com/media/photo-s/19/3b/00/06/sushi-place.jpg" title="Testing" />
-      <CategoryCard imgUrl="https://media-cdn.tripadvisor.com/media/photo-s/19/3b/00/06/sushi-place.jpg" title="Testing" />
-      <CategoryCard imgUrl="https://media-cdn.tripadvisor.com/media/photo-s/19/3b/00/06/sushi-place.jpg" title="Testing" />
-      <CategoryCard imgUrl="https://media-cdn.tripadvisor.com/media/photo-s/19/3b/00/06/sushi-place.jpg" title="Testing" />
-      <CategoryCard imgUrl="https://media-cdn.tripadvisor.com/media/photo-s/19/3b/00/06/sushi-place.jpg" title="Testing" />
-      <CategoryCard imgUrl="https://media-cdn.tripadvisor.com/media/photo-s/19/3b/00/06/sushi-place.jpg" title="Testing" />
+      {categories.map((category) => (
+        <CategoryCard
+          key={category._id}
+          imgUrl={urlFor(category.image).width(200).url()}
+          title={category.name}
+        />
+      ))}
     </ScrollView>
   );
 };
