@@ -1,6 +1,5 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
-import { urlFor } from "../sanity";
 import {
   MinusCircleIcon,
   PlusCircleIcon,
@@ -12,6 +11,7 @@ import {
   selectBasketItems,
   selectBasketItemsWithId,
 } from "../features/basketSlice";
+import { urlFor } from "../sanity";
 
 const DishRow = ({ id, name, description, price, image }) => {
   const formattedPrice = new Intl.NumberFormat("en-GB", {
@@ -50,18 +50,18 @@ const DishRow = ({ id, name, description, price, image }) => {
             <Text className="text-gray-400 mt-2">{formattedPrice}</Text>
           </View>
 
-          {/*<View>
-        <Image
-          style={{
-            borderWidth: 1,
-            borderColor: "#F3F3F4",
-          }}
-          source={{
-            uri: urlFor(image).url() // Update image prop to use correct field name
-          }}
-          className="h-20 w-20 bg-gray-300 p-4"
-        />
-        </View> */}
+          <View>
+            <Image
+              style={{
+                borderWidth: 1,
+                borderColor: "#F3F3F4",
+              }}
+              source={{
+                uri: urlFor(image).url(),
+              }}
+              className="h-20 w-20 bg-gray-300 p-4"
+            />
+          </View>
         </View>
       </TouchableOpacity>
       {isPressed && (
